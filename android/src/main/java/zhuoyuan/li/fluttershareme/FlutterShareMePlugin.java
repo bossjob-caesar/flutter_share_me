@@ -48,6 +48,7 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
     final private static String _methodFaceBook = "facebook_share";
     final private static String _methodMessenger = "messenger_share";
     final private static String _methodTwitter = "twitter_share";
+    final private static String _methodLinkedin = "linkedin_share";
     final private static String _methodSystemShare = "system_share";
     final private static String _methodInstagramShare = "instagram_share";
     final private static String _methodTelegramShare = "telegram_share";
@@ -108,6 +109,11 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
                 url = call.argument("url");
                 msg = call.argument("msg");
                 shareToTwitter(url, msg, result);
+                break;
+            case _methodLinkedin:
+                url = call.argument("url");
+                msg = call.argument("msg");
+                shareToLinkedin(url, msg, result);
                 break;
             case _methodWhatsApp:
                 msg = call.argument("msg");
@@ -170,6 +176,29 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
      */
 
     private void shareToTwitter(String url, String msg, Result result) {
+        try {
+            TweetComposer.Builder builder = new TweetComposer.Builder(activity)
+                    .text(msg);
+            if (url != null && url.length() > 0) {
+                builder.url(new URL(url));
+            }
+
+            builder.show();
+            result.success("success");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * share to linkedin
+     *
+     * @param url    String
+     * @param msg    String
+     * @param result Result
+     */
+
+    private void shareToLinkedin(String url, String msg, Result result) {
         try {
             TweetComposer.Builder builder = new TweetComposer.Builder(activity)
                     .text(msg);

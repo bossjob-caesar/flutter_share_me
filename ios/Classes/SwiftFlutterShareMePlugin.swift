@@ -10,6 +10,7 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
     let _methodWhatsAppBusiness = "whatsapp_business_share";
     let _methodFaceBook = "facebook_share";
     let _methodTwitter = "twitter_share";
+    let _methodLinkedin = "linkedin_share";
     let _methodInstagram = "instagram_share";
     let _methodSystemShare = "system_share";
     let _methodTelegramShare = "telegram_share";
@@ -65,6 +66,9 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         }else if(call.method.elementsEqual(_methodTwitter)){
             let args = call.arguments as? Dictionary<String,Any>
             shareTwitter(message: args!["msg"] as! String, url: args!["url"] as! String, result: result)
+        }else if(call.method.elementsEqual(_methodLinkedin)){
+            let args = call.arguments as? Dictionary<String,Any>
+            shareLinkedin(message: args!["msg"] as! String, url: args!["url"] as! String, result: result)
         }
         else if(call.method.elementsEqual(_methodInstagram)){
             let args = call.arguments as? Dictionary<String,Any>
@@ -226,6 +230,36 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         }
         
     }
+
+// share linkedin params
+    // @ message
+    // @ url
+    func shareLinkedin(message:String,url:String, result: @escaping FlutterResult)  {
+        let urlstring = url
+        let linkedinURL =  "linkedin://share?text=\(message)"
+        
+        let urlTextEscaped = urlstring.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)
+        let url = URL(string: urlTextEscaped ?? "")
+        
+        let urlWithLink = linkedinURL + url!.absoluteString
+        
+        let escapedShareString = urlWithLink.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        // cast to an url
+        let urlschme = URL(string: escapedShareString)
+        // open in safari
+        do {
+            if UIApplication.shared.canOpenURL(urlschme! as URL){
+                UIApplication.shared.openURL(urlschme!)
+                result("Sucess")
+            }else{
+                result(FlutterError(code: "Not found", message: "Twitter is not found", details: "Twitter not intalled or Check url scheme."));
+                
+            }
+        }
+        
+    }
+
+
     //share via telegram
     //@ text that you want to share.
     func shareToTelegram(message: String,result: @escaping FlutterResult )

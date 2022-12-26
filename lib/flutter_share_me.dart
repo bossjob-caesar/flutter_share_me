@@ -14,6 +14,7 @@ class FlutterShareMe {
   static const String _methodFaceBook = 'facebook_share';
   static const String _methodMessenger = 'messenger_share';
   static const String _methodTwitter = 'twitter_share';
+  static const String _methodLinkedin = 'linkedin_share';
   static const String _methodInstagramShare = 'instagram_share';
   static const String _methodSystemShare = 'system_share';
   static const String _methodTelegramShare = 'telegram_share';
@@ -141,6 +142,21 @@ class FlutterShareMe {
     String? result;
     try {
       result = await _channel.invokeMethod(_methodTwitter, arguments);
+    } catch (e) {
+      return e.toString();
+    }
+    return result;
+  }
+
+  ///share to linkedin
+  ///[msg] string that you want share.
+  Future<String?> shareToLinkedin({required String msg, String url = ''}) async {
+    final Map<String, dynamic> arguments = <String, dynamic>{};
+    arguments.putIfAbsent('msg', () => msg);
+    arguments.putIfAbsent('url', () => url);
+    String? result;
+    try {
+      result = await _channel.invokeMethod(_methodLinkedin, arguments);
     } catch (e) {
       return e.toString();
     }
