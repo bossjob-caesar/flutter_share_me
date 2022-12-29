@@ -199,17 +199,19 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
      */
 
     private void shareToLinkedin(String url, String msg, Result result) {
+       try {
+        Intent telegramIntent = new Intent(Intent.ACTION_SEND);
+        telegramIntent.setType("text/*");
+        telegramIntent.setPackage("com.linkedin.android");
+        telegramIntent.putExtra(Intent.EXTRA_TEXT,url +"/n"+ msg);
         try {
-            TweetComposer.Builder builder = new TweetComposer.Builder(activity)
-                    .text(msg);
-            if (url != null && url.length() > 0) {
-                builder.url(new URL(url));
-            }
-
-            builder.show();
-            result.success("success");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            activity.startActivity(telegramIntent);
+            result.success("true");
+        } catch (Exception ex) {
+            result.success("false:linkedin app is not installed on your device");
+        }
+        } catch (Exception var9) {
+            result.error("error", var9.toString(), "");
         }
     }
 
