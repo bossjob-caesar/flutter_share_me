@@ -206,7 +206,7 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
         telegramIntent.putExtra(Intent.EXTRA_TEXT,url +"/n"+ msg);
         try {
             activity.startActivity(telegramIntent);
-            result.success("true");
+            result.success("success");
         } catch (Exception ex) {
             result.success("false:linkedin app is not installed on your device");
         }
@@ -338,7 +338,7 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
             telegramIntent.putExtra(Intent.EXTRA_TEXT, msg);
             try {
                 activity.startActivity(telegramIntent);
-                result.success("true");
+                result.success("success");
             } catch (Exception ex) {
                 result.success("false:Telegram app is not installed on your device");
             }
