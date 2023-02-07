@@ -225,6 +225,7 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
     private void shareToFacebook(String url, String msg, Result result) {
 
         ShareDialog shareDialog = new ShareDialog(activity);
+
         // this part is optional
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
@@ -247,11 +248,12 @@ public class FlutterShareMePlugin implements MethodCallHandler, FlutterPlugin, A
                 .setContentUrl(Uri.parse(url))
                 .setQuote(msg)
                 .build();
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-            shareDialog.show(content);
+        if (shareDialog.canShow(content, ShareDialog.Mode.NATIVE)) {
+            shareDialog.show(content, ShareDialog.Mode.NATIVE);
             result.success("success");
+        }else{
+            result.success("alert install app");
         }
-
     }
 
     /**
