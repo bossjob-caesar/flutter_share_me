@@ -197,7 +197,7 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         shareContent.quote = message["msg"] as? String
     
         let shareDialog = ShareDialog(viewController: viewController, content: shareContent, delegate: self)
-        shareDialog.mode = .automatic
+        shareDialog.mode = .native
         if (shareDialog.canShow) {
             shareDialog.show()
             result("success")
